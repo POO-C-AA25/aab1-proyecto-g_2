@@ -1,4 +1,4 @@
-package proyectobimestralgrupal;
+package proyectobimestralgrupal.Modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +33,12 @@ public class Factura {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("====== FACTURA ======\n");
+        sb.append("------------ FACTURA ------------\n");
         sb.append(datosCliente).append("\n");
         sb.append("Productos:\n");
         for (Producto p : productosComprados) {
-            sb.append("- ").append(p.nombre)
-              .append(" (").append(p.categoria).append(")")
+            sb.append(p.nombre)
+              .append(p.categoria)
               .append(" x").append(p.stock)
               .append(" $").append(String.format("%.2f", p.obtenerPrecioAplicado()));
             if (p.esPrecioPromo()) sb.append(" (PROMO)");
@@ -52,7 +52,7 @@ public class Factura {
             for (Producto p : productosComprados) {
                 if (p.categoria == cats[i]) {
                     double subtotalProd = p.obtenerPrecioAplicado() * p.stock;
-                    sb.append("   - ").append(p.nombre)
+                    sb.append("  ").append(p.nombre)
                       .append(": $").append(String.format("%.2f", subtotalProd)).append("\n");
                     totalCat += subtotalProd;
                 }
@@ -62,12 +62,7 @@ public class Factura {
         sb.append("Subtotal: $").append(String.format("%.2f", total - iva)).append("\n");
         sb.append("IVA (15%): $").append(String.format("%.2f", iva)).append("\n");
         sb.append("Total: $").append(String.format("%.2f", total)).append("\n");
-        sb.append("=====================\n");
+        sb.append("--------------------\n");
         return sb.toString();
     }
 }
-
-
-
-
-

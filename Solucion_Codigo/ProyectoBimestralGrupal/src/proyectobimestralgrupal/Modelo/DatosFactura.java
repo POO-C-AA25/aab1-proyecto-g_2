@@ -1,7 +1,8 @@
-package proyectobimestralgrupal;
+package proyectobimestralgrupal.Modelo;
+
 
 public class DatosFactura {
-    public String nombre;
+     public String nombre;
     public String cedula;
     public String direccion;
     public String telefono;

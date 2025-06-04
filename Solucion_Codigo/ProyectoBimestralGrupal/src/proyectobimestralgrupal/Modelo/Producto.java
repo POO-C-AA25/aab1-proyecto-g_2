@@ -1,4 +1,4 @@
-package proyectobimestralgrupal;
+package proyectobimestralgrupal.Modelo;
 
 public class Producto {
     public int codigo;
@@ -12,8 +12,8 @@ public class Producto {
 
     public Producto() {}
 
-    public Producto(int codigo, String nombre, int dia, int mes, int anio,
-                    double precioNormal, Categoria categoria, int stock) {
+    public Producto(int codigo, String nombre, int dia, int mes, int anio, 
+            double precioNormal, Categoria categoria, int stock) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.diaCaduca = dia;
@@ -53,6 +53,3 @@ public class Producto {
                (esPrecioPromo() ? " [PROMO 20%]" : "");
     }
 }
-
-
-

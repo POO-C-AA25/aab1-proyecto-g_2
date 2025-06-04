@@ -1,4 +1,5 @@
-package proyectobimestralgrupal;
+package proyectobimestralgrupal.Modelo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,3 @@ public class CarritoDeCompras {
         productosCarrito.clear();
     }
 }
-
-
-
-
-

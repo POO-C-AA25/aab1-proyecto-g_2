@@ -1,24 +1,21 @@
-package proyectobimestralgrupal;
+package proyectobimestralgrupal.Controlador;
 
+import proyectobimestralgrupal.Modelo.*;
+import proyectobimestralgrupal.Vista.VistaFactura;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class EjecutorFactura {
-    public Scanner entrada = new Scanner(System.in);
+public class ControladorFactura {
+    
+    
     public List<Producto> listaProductos = new ArrayList<>();
     public List<Factura> listaFacturas = new ArrayList<>();
     public CarritoDeCompras carrito = new CarritoDeCompras();
     public DatosFactura cliente = null;
-
-    public static void main(String[] args) {
-        EjecutorFactura app = new EjecutorFactura();
-        app.cargarProductos();
-        app.menu();
-    }
+    public VistaFactura vista = new VistaFactura();
 
     public void cargarProductos() {
         listaProductos.add(new Producto(1, "Arroz Blanco", 25, 6, 2025, 1.00, Categoria.ALIMENTACION, 100));
@@ -33,28 +30,16 @@ public class EjecutorFactura {
         listaProductos.add(new Producto(10, "Fosforos", 22, 10, 2025, 0.40, Categoria.VIVIENDA, 90));
     }
 
-    public void menu() {
+    public void ejecutarMenu() {
         int opcionPrincipal;
         int opcionClases;
+        cargarProductos();
         do {
-            System.out.println("---------------------------");
-            System.out.println("|        SUPERMAXI        |");
-            System.out.println("---------------------------");
-            System.out.println("[1] CREAR FACTURA");
-            System.out.println("[2] AGREGAR/GESTIONAR PRODUCTOS");
-            System.out.println("[3] MOSTRAR FACTURAS");
-            System.out.println("[4] MOSTRAR ESTADISTICAS");
-            System.out.println("[0] Salir");
-            opcionPrincipal = entrada.nextInt();
+            opcionPrincipal = vista.mostrarMenuPrincipal();
             switch (opcionPrincipal) {
                 case 1:
                     do {
-                        System.out.println("[1] DATOS CLIENTE");
-                        System.out.println("[2] COMPRAR PRODUCTOS");
-                        System.out.println("[3] GENERAR FACTURA");
-                        System.out.println("[0] Volver");
-                        opcionClases = entrada.nextInt();
-                        entrada.nextLine();
+                        opcionClases = vista.mostrarMenuFactura();
                         switch (opcionClases) {
                             case 1:
                                 cliente = pedirDatosCliente();
@@ -79,12 +64,7 @@ public class EjecutorFactura {
                     break;
                 case 2:
                     do {
-                        System.out.println("[1] AGREGAR PRODUCTOS NUEVOS A STOCK");
-                        System.out.println("[2] ELIMINAR PRODUCTOS");
-                        System.out.println("[3] MOSTRAR PRODUCTOS");
-                        System.out.println("[0] Volver");
-                        opcionClases = entrada.nextInt();
-                        entrada.nextLine();
+                        opcionClases = vista.mostrarMenuProducto();
                         switch (opcionClases) {
                             case 1:
                                 Producto nuevo = pedirProductoNuevo();
@@ -94,54 +74,56 @@ public class EjecutorFactura {
                                 eliminarProductoDeLista();
                                 break;
                             case 3:
-                                mostrarListaProductos();
+                                vista.mostrarListaProductos(listaProductos);
                                 break;
                         }
                     } while (opcionClases != 0);
                     break;
                 case 3:
-                    mostrarFacturas();
+                    vista.mostrarFacturas(listaFacturas);
                     break;
                 case 4:
                     mostrarEstadisticas();
                     guardarEstadisticasEnArchivo();
                     break;
                 case 0:
-                    System.out.println("Saliendo del sistema...");
+                    vista.mostrarMensaje("Saliendo del sistema...");
                     break;
                 default:
-                    System.out.println("Opcion no valida. Intente nuevamente.");
+                    vista.mostrarMensaje("Opcion no valida. Intente nuevamente.");
             }
         } while (opcionPrincipal != 0);
     }
 
     public DatosFactura pedirDatosCliente() {
         System.out.println("Ingrese nombre del cliente:");
-        String nombre = entrada.nextLine();
+        vista.entrada.nextLine();
+        String nombre = vista.entrada.nextLine();
         System.out.println("Ingrese cedula del cliente:");
-        String cedula = entrada.nextLine();
+        String cedula = vista.entrada.nextLine();
         System.out.println("Ingrese direccion del cliente:");
-        String direccion = entrada.nextLine();
+        String direccion = vista.entrada.nextLine();
         System.out.println("Ingrese telefono del cliente:");
-        String telefono = entrada.nextLine();
+        String telefono = vista.entrada.nextLine();
         return new DatosFactura(nombre, cedula, direccion, telefono);
     }
 
     public Producto pedirProductoNuevo() {
         System.out.println("Ingrese el nombre del producto:");
-        String nombre = entrada.nextLine();
+        vista.entrada.nextLine();
+        String nombre = vista.entrada.nextLine();
         System.out.println("Ingrese fecha de caducidad:");
         System.out.print("Dia: ");
-        int dia = entrada.nextInt();
+        int dia = vista.entrada.nextInt();
         System.out.print("Mes: ");
-        int mes = entrada.nextInt();
+        int mes = vista.entrada.nextInt();
         System.out.print("Anio: ");
-        int anio = entrada.nextInt();
+        int anio = vista.entrada.nextInt();
         System.out.println("Ingrese el precio normal:");
-        double precioNormal = entrada.nextDouble();
-        entrada.nextLine();
+        double precioNormal = vista.entrada.nextDouble();
+        vista.entrada.nextLine();
         System.out.println("Ingrese la categoria (VIVIENDA, EDUCACION, ALIMENTACION, VESTIMENTA o SALUD):");
-        String categoriaTexto = entrada.nextLine().toUpperCase();
+        String categoriaTexto = vista.entrada.nextLine().toUpperCase();
         Categoria categoria;
         try {
             categoria = Categoria.valueOf(categoriaTexto);
@@ -150,16 +132,16 @@ public class EjecutorFactura {
             return null;
         }
         System.out.println("Ingrese cuanto stock hay:");
-        int stock = entrada.nextInt();
-        entrada.nextLine();
+        int stock = vista.entrada.nextInt();
+        vista.entrada.nextLine();
         int codigo = listaProductos.isEmpty() ? 1 : listaProductos.get(listaProductos.size() - 1).codigo + 1;
         return new Producto(codigo, nombre, dia, mes, anio, precioNormal, categoria, stock);
     }
 
     public void agregarProductoACarrito() {
-        mostrarListaProductos();
+        vista.mostrarListaProductos(listaProductos);
         System.out.print("Ingrese el codigo del producto que desea agregar al carrito: ");
-        int codigoAgregar = entrada.nextInt();
+        int codigoAgregar = vista.entrada.nextInt();
         Producto productoEncontrado = null;
         for (Producto p : listaProductos) {
             if (p.codigo == codigoAgregar) {
@@ -171,8 +153,8 @@ public class EjecutorFactura {
             System.out.println("Producto no encontrado.");
         } else {
             System.out.print("Ingrese la cantidad que desea agregar al carrito: ");
-            int cantidad = entrada.nextInt();
-            entrada.nextLine();
+            int cantidad = vista.entrada.nextInt();
+            vista.entrada.nextLine();
             if (cantidad > productoEncontrado.stock) {
                 System.out.println("No hay suficiente stock disponible.");
             } else {
@@ -183,10 +165,10 @@ public class EjecutorFactura {
     }
 
     public void eliminarProductoDeLista() {
-        mostrarListaProductos();
+        vista.mostrarListaProductos(listaProductos);
         System.out.print("Ingrese el codigo del producto a eliminar: ");
-        int codigo = entrada.nextInt();
-        entrada.nextLine();
+        int codigo = vista.entrada.nextInt();
+        vista.entrada.nextLine();
         Producto productoAEliminar = null;
         for (Producto p : listaProductos) {
             if (p.codigo == codigo) {
@@ -199,29 +181,6 @@ public class EjecutorFactura {
             System.out.println("Producto eliminado con exito.");
         } else {
             System.out.println("Producto no encontrado.");
-        }
-    }
-
-    public void mostrarListaProductos() {
-        System.out.println("=== Lista de productos ===");
-        int contador = 1;
-        for (Producto p : listaProductos) {
-            System.out.println(contador + ". " + p);
-            contador++;
-        }
-    }
-
-    public void mostrarFacturas() {
-        if (listaFacturas.isEmpty()) {
-            System.out.println("No existen facturas generadas en este momento.");
-        } else {
-            System.out.println("=== FACTURAS DEL DIA ===");
-            int contador = 1;
-            for (Factura f : listaFacturas) {
-                System.out.println("Factura #" + contador);
-                System.out.println(f);
-                contador++;
-            }
         }
     }
 
@@ -291,4 +250,3 @@ public class EjecutorFactura {
         }
     }
 }
-
