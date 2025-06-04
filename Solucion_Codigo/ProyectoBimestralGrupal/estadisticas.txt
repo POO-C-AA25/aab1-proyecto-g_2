@@ -1,0 +1,19 @@
+=== ESTADISTICAS DEL DIA ===
+Total vendido: $166,41
+VIVIENDA:
+   - Fosforos: $2,00
+   Total VIVIENDA: $2,00
+EDUCACION:
+   Total EDUCACION: $0,00
+ALIMENTACION:
+   - Arroz Blanco: $4,00
+   - Arroz Blanco: $1,60
+   - Huevos Medianos: $7,50
+   Total ALIMENTACION: $13,10
+VESTIMENTA:
+   - Jeans Clasicos: $126,00
+   Total VESTIMENTA: $126,00
+SALUD:
+   - Alcohol Antiseptico: $3,60
+   Total SALUD: $3,60
+===============================
