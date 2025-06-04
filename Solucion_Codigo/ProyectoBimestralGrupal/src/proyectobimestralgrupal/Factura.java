@@ -60,7 +60,7 @@ public class Factura {
             sb.append("   Total ").append(cats[i]).append(": $").append(String.format("%.2f", totalCat)).append("\n");
         }
         sb.append("Subtotal: $").append(String.format("%.2f", total - iva)).append("\n");
-        sb.append("IVA (15%): $").append(String.format("%.2f", iva)).append("\n"); // <--- CAMBIO AQUI
+        sb.append("IVA (15%): $").append(String.format("%.2f", iva)).append("\n");
         sb.append("Total: $").append(String.format("%.2f", total)).append("\n");
         sb.append("=====================\n");
         return sb.toString();
